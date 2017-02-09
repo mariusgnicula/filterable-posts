@@ -3,7 +3,7 @@
 * Plugin Name: MN Filterable Products
 * Plugin URI: https://github.com/mariusgnicula/filterable-products
 * Description: A custom widget to display and filter products.
-* Version: 0.2
+* Version: 0.3
 * Author: Marius Nicula
 * Author URI: https://www.linkedin.com/in/mariusgnicula
 */
@@ -67,6 +67,16 @@ function mn_filterable_products($atts) {
     // less messy code is less messy life
 
     include_once('includes/mn-loop.php');
+
+    // add script to footer of page
+
+    function mn_script() {
+
+        echo '<script type="text/javascript" src="'. plugin_dir_url( __FILE__ ) .'js/mn-filter.js"></script>';
+
+    }
+
+    add_action('wp_footer', 'mn_script');
 
 }
 
