@@ -2,7 +2,7 @@
 /*
 * Plugin Name: MN Filterable Products
 * Plugin URI: https://github.com/mariusgnicula/filterable-products
-* Description: A custom widget to display and filter products.
+* Description: A custom widget to filter products.
 * Version: 0.1
 * Author: Marius Nicula
 * Author URI: https://www.linkedin.com/in/mariusgnicula
@@ -17,13 +17,14 @@ function mn_filterable_products($atts) {
     // (to do) if a number of posts is set, we can also make it paged
     // (to do) if custom image size is entered
     // add that image size and regenerate the thumbnails
+    // (to do) figure out if the attribute is custom
 
     $a = shortcode_atts([
         'number' => -1,
         'category' => 'unset',
         'paged' => false,
         'image-size' => 'shop_catalog',
-        'attribute' => 'unset',
+        'attribute' => 'pa_tip-lemn',
         'link-text' => 'Vezi produs'
     ], $atts );
 
@@ -35,6 +36,7 @@ function mn_filterable_products($atts) {
     $mn_image_size = $a['image-size'];
     $mn_attribute = $a['attribute'];
     $mn_link_text = $a['link-text'];
+    $mn_attribute = $a['attribute'];
 
     // query args
 
@@ -76,7 +78,7 @@ function mn_filterable_products($atts) {
 
         		// echo product start tag
 
-                echo '<div class="mn-product"';
+                echo '<div class="mn-product">';
 
                     // get product image and alt text and echo it with link
 
@@ -104,9 +106,14 @@ function mn_filterable_products($atts) {
 
                         the_title('<h2>', '</h2>');
 
-                        if ( $mn_attribute !== 'unset' ) {
-                            echo '<h3>' . $mn_attribute  . '</h3>';
-                        }
+                        // get the attributes
+                        // only taking the first value for now
+
+                        $mn_attribute_single = get_the_terms(get_the_ID(), $mn_attribute);
+                        $mn_attribute_single = $mn_attribute_single[0];
+                        $mn_attribute_single = $mn_attribute_single->name;
+
+                        echo '<h3>Lemn de ' . $mn_attribute_single  . '</h3>';
 
                         echo '<a class="mn-product__more" href="' . get_permalink() . '">';
 
