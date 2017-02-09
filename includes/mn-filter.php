@@ -26,7 +26,7 @@ echo '<div class="mn-filter">';
 
             // add an 'all' category
 
-            echo '<li class="all"><a href="#">Toate Produsele</a></li>';
+            echo '<li class="all"><a href="#all">Toate Produsele</a></li>';
 
             foreach ( $mn_term_children as $mn_term_child ) {
 
