@@ -25,7 +25,8 @@ function mn_filterable_products($atts) {
         'paged' => false,
         'image-size' => 'shop_catalog',
         'attribute' => 'pa_tip-lemn',
-        'link-text' => 'Vezi produs'
+        'link-text' => 'Vezi produs',
+        'filter' => true
     ], $atts );
 
     // saving the values into custom variables
@@ -34,9 +35,9 @@ function mn_filterable_products($atts) {
     $mn_category = $a['category'];
     $mn_paged = $a['paged'];
     $mn_image_size = $a['image-size'];
-    $mn_attribute = $a['attribute'];
     $mn_link_text = $a['link-text'];
     $mn_attribute = $a['attribute'];
+    $mn_filter_boolean = $a['filter'];
 
     // query args
 
@@ -63,8 +64,19 @@ function mn_filterable_products($atts) {
     $mn_filter_query = new WP_Query( $mn_args );
 
     // query start
+    // check if posts are found
 
     if ( $mn_filter_query->have_posts() ) {
+
+        // if posts are found, check if filter is true
+        // some may only want to display products, and not have the filter
+        // if filter is true, load includes/mn-filter.php
+
+        if ( $mn_filter_boolean === true ) {
+
+            include_once('includes/mn-filter.php');
+
+        }
 
         // if posts are found, echo product archive start tag
 
@@ -76,9 +88,36 @@ function mn_filterable_products($atts) {
 
         		$mn_filter_query->the_post();
 
-        		// echo product start tag
+                // get category classes to use filter with
+                // get the post categories
 
-                echo '<div class="mn-product">';
+                $mn_post_cats = get_the_terms(get_the_ID(), 'product_cat');
+
+                // loop through categories
+
+                $mn_classes = '';
+
+                foreach ( $mn_post_cats as $mn_post_cat ) {
+
+                    // exclude parent category
+
+                    if ( $mn_post_cat->parent !== 0 ) {
+
+                        // add prefix to class to not overwrite other code
+                        // add each to $classes string
+
+                        $mn_post_cat_class = ' mn-filter--' . $mn_post_cat->slug;
+
+                        $mn_classes .= $mn_post_cat_class;
+
+                    }
+
+                }
+
+        		// echo product start tag
+                // include $classes
+
+                echo '<div class="mn-product' . $mn_classes . '">';
 
                     // get product image and alt text and echo it with link
 
