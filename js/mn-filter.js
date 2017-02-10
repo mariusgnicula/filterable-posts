@@ -11,7 +11,7 @@
 
         if ( self.parent('li').hasClass('all') ) {
 
-            $('.mn-product__container .mn-product').each(function() {
+            $('.mn-filter-post__container .mn-filter-post').each(function() {
 
                 var productSelf = $(this);
 
@@ -26,7 +26,7 @@
 
         } else {
 
-            $('.mn-product__container .mn-product').each(function() {
+            $('.mn-filter-post__container .mn-filter-post').each(function() {
 
                 var productSelf = $(this);
 
@@ -67,7 +67,7 @@
 
                         var mnClass = selfMN.attr('href').replace('#', '');
 
-                        $('.mn-product__container .mn-product').each(function() {
+                        $('.mn-filter-post__container .mn-filter-post').each(function() {
 
                             var productSelf = $(this);
 

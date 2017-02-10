@@ -9,12 +9,27 @@ echo '<div class="mn-filter">';
 
     // get mn-category ID from slug
 
-    $mn_term = get_term_by('slug', $mn_category, 'product_cat');
-    $mn_term_id = $mn_term->term_id;
+    // check if taxonomy-term is set
 
-    // get term children ids
+    if ( $mn_taxonomy_term !== 'unset' ) {
 
-    $mn_term_children = get_term_children($mn_term_id, 'product_cat');
+        $mn_term = get_term_by('slug', $mn_taxonomy_term, $mn_taxonomy);
+        $mn_term_id = $mn_term->term_id;
+        $mn_term_children = get_term_children($mn_term_id, $mn_taxonomy);
+
+    } else {
+
+        $mn_terms = get_terms();
+
+        $mn_term_children = [];
+
+        foreach ( $mn_terms as $mn_term ) {
+            if ( $mn_term->parent === 0 && $mn_term->taxonomy === $mn_taxonomy ) {
+                array_push($mn_term_children, $mn_term->term_id);
+            }
+        }
+
+    }
 
     // check if any child terms exist
 
@@ -33,7 +48,7 @@ echo '<div class="mn-filter">';
                 // get term slug for #link
                 // get term name
 
-                $child_term = get_term_by('id', $mn_term_child, 'product_cat');
+                $child_term = get_term_by('id', $mn_term_child, $mn_taxonomy);
                 $child_term_slug = $child_term->slug;
                 $child_term_name = $child_term->name;
 

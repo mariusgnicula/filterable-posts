@@ -18,10 +18,13 @@ function mn_filterable_products($atts) {
     // (to do) if custom image size is entered
     // add that image size and regenerate the thumbnails
     // (to do) figure out if the attribute is custom
+    // (TO DO!) shortcode only works with product at this point
 
     $a = shortcode_atts([
         'number' => -1,
-        'category' => 'unset',
+        'post-type'=> 'post',
+        'taxonomy' => 'category',
+        'taxonomy-term' => 'unset',
         'paged' => false,
         'image-size' => 'shop_catalog',
         'attribute' => 'pa_tip-lemn',
@@ -32,7 +35,9 @@ function mn_filterable_products($atts) {
     // saving the values into custom variables
 
     $mn_number = (int)$a['number'];
-    $mn_category = $a['category'];
+    $mn_post_type = $a['post-type'];
+    $mn_taxonomy = $a['taxonomy'];
+    $mn_taxonomy_term = $a['taxonomy-term'];
     $mn_paged = $a['paged'];
     $mn_image_size = $a['image-size'];
     $mn_link_text = $a['link-text'];
@@ -42,21 +47,21 @@ function mn_filterable_products($atts) {
     // query args
 
     $mn_args = [
-        'post_type'  => 'product',
+        'post_type'  => $mn_post_type,
         'posts_per_page' => $mn_number
     ];
 
     // if the specific category is set, show products only from that category
     // if it isn't, show all products
 
-    if ( $mn_category !== 'unset' ) {
+    if ( $mn_taxonomy_term !== 'unset' ) {
         $mn_args['tax_query'] = [[
-            'taxonomy' => 'product_cat',
+            'taxonomy' => $mn_taxonomy,
             'field'    => 'slug',
-            'terms'    => [ $mn_category ]
+            'terms'    => [ $mn_taxonomy_term ]
 		]];
     } else {
-        $mn_args['tax'] = 'product_cat';
+        $mn_args['tax'] = $mn_taxonomy;
     }
 
     // WP_Query declaration
