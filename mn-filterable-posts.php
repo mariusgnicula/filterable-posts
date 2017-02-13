@@ -25,7 +25,7 @@ function mn_filterable_posts($atts) {
         'taxonomy' => 'category',
         'taxonomy-term' => 'unset',
         'paged' => false,
-        'image-size' => 'shop_catalog',
+        'image-size' => 'thumbnail',
         'attribute' => 'pa_tip-lemn',
         'link-text' => 'Vezi produs',
         'filter' => true
