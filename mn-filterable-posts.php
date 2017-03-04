@@ -17,7 +17,6 @@ function mn_filterable_posts($atts) {
     // (to do) if a number of posts is set, we can also make it paged
     // (to do) if custom image size is entered
     // add that image size and regenerate the thumbnails
-    // (to do) figure out if the attribute is custom
 
     $a = shortcode_atts([
         'number' => -1,
@@ -26,7 +25,6 @@ function mn_filterable_posts($atts) {
         'taxonomy-term' => 'unset',
         'paged' => false,
         'image-size' => 'thumbnail',
-        'attribute' => 'pa_tip-lemn',
         'link-text' => 'Vezi produs',
         'filter' => true
     ], $atts );
@@ -40,7 +38,6 @@ function mn_filterable_posts($atts) {
     $mn_paged = $a['paged'];
     $mn_image_size = $a['image-size'];
     $mn_link_text = $a['link-text'];
-    $mn_attribute = $a['attribute'];
     $mn_filter_boolean = $a['filter'];
 
     // query args
