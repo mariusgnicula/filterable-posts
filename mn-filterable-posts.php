@@ -70,14 +70,19 @@ function mn_filterable_posts($atts) {
     include_once('includes/mn-loop.php');
 
     // add script to footer of page
+    // only if function was not called already
 
-    function mn_script() {
+    if ( !function_exists('mn_script') ) {
 
-        echo '<script type="text/javascript" src="'. plugin_dir_url( __FILE__ ) .'js/mn-filter.js"></script>';
+        function mn_script() {
+    
+            echo '<script type="text/javascript" src="'. plugin_dir_url( __FILE__ ) .'js/mn-filter.js"></script>';
+
+        }
+
+        add_action('wp_footer', 'mn_script');
 
     }
-
-    add_action('wp_footer', 'mn_script');
 
 }
 
